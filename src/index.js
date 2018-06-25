@@ -232,16 +232,17 @@ export default {
         },
 
         $addMeteorData (key, func) {
-          if (typeof func === 'function') {
-            func = func.bind(this)
-          } else {
-            throw Error(`Meteor data '${key}': You must provide a function which returns the result.`)
-          }
+          if (this._meteorActive) {
+            if (typeof func === 'function') {
+              func = func.bind(this)
+            } else {
+              throw Error(`Meteor data '${key}': You must provide a function which returns the result.`)
+            }
 
-          if (hasProperty(this.$data, key) || hasProperty(this.$props, key) || hasProperty(this, key)) {
-            throw Error(`Meteor data '${key}': Property already used in the component data, props or other.`)
+            if (hasProperty(this.$data, key) || hasProperty(this.$props, key) || hasProperty(this, key)) {
+              throw Error(`Meteor data '${key}': Property already used in the component data, props or other.`)
+            }
           }
-
           Object.defineProperty(this, key, {
             get: () => this.$data.$meteor.data[key],
             enumerable: true,

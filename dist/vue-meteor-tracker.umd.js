@@ -1909,16 +1909,17 @@ var index = {
         $addMeteorData: function $addMeteorData(key, func) {
           var _this4 = this;
 
-          if (typeof func === 'function') {
-            func = func.bind(this);
-          } else {
-            throw Error('Meteor data \'' + key + '\': You must provide a function which returns the result.');
-          }
+          if (this._meteorActive) {
+            if (typeof func === 'function') {
+              func = func.bind(this);
+            } else {
+              throw Error('Meteor data \'' + key + '\': You must provide a function which returns the result.');
+            }
 
-          if (hasProperty(this.$data, key) || hasProperty(this.$props, key) || hasProperty(this, key)) {
-            throw Error('Meteor data \'' + key + '\': Property already used in the component data, props or other.');
+            if (hasProperty(this.$data, key) || hasProperty(this.$props, key) || hasProperty(this, key)) {
+              throw Error('Meteor data \'' + key + '\': Property already used in the component data, props or other.');
+            }
           }
-
           Object.defineProperty(this, key, {
             get: function get$$1() {
               return _this4.$data.$meteor.data[key];
