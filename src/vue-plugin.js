@@ -247,8 +247,8 @@ export default {
               } catch (e) {
                 console.error(e, tracker)
               }
+              this._trackerHandles = null
             })
-            this._trackerHandles = null
             this._meteorActive = false
           }
         },
